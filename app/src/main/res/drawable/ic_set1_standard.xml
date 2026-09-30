@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="36dp"
+    android:height="36dp"
+    android:viewportWidth="36"
+    android:viewportHeight="36">
+    <!-- Layered colored boxes/cards -->
+    <path
+        android:fillColor="#4ADE80"
+        android:pathData="M6,10 h16 v16 h-16 z"
+        android:strokeWidth="0"/>
+    <path
+        android:fillColor="#3B82F6"
+        android:pathData="M10,14 h16 v16 h-16 z"/>
+    <path
+        android:fillColor="#EF4444"
+        android:pathData="M14,18 h16 v16 h-16 z"/>
+</vector>

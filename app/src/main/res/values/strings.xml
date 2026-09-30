@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">SejarahQu</string>
+    <string name="header_app_title">SEJARAHQU</string>
+    <string name="welcome_heading">Selamat Datang ke SejarahQu!</string>
+    <string name="welcome_subheading">Pilih set kuiz untuk menguji pengetahuan Sejarah anda.</string>
+
+    <string name="set1_tag">SET 1</string>
+    <string name="set1_title">Standard / Core Concepts</string>
+    <string name="set1_desc">Uji pemahaman anda terhadap fakta dan konsep asas Sejarah Malaysia.</string>
+    <string name="set1_chip">50 Soalan · Bab 1–10</string>
+    <string name="set1_btn">Mula Set 1</string>
+
+    <string name="set2_tag">SET 2</string>
+    <string name="set2_title">Application &amp; Scenario-Based</string>
+    <string name="set2_desc">Gunakan pengetahuan sejarah untuk menjawab soalan berbentuk aplikasi dan situasi.</string>
+    <string name="set2_chip">50 Soalan · Bab 1–10</string>
+    <string name="set2_btn">Mula Set 2</string>
+
+    <string name="how_to_play_title">Cara Bermain</string>
+    <string name="step_1">Pilih satu set kuiz.</string>
+    <string name="step_2">Jawab semua soalan.</string>
+    <string name="step_3">Hantar jawapan selepas selesai.</string>
+    <string name="step_4">Lihat markah dan semak jawapan sebenar.</string>
+    <string name="step_5">Tekan "Penerangan" untuk melihat penerangan setiap jawapan.</string>
+</resources>

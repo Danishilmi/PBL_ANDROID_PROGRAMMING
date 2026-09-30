@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- SejarahQu Color Palette -->
+    <color name="navy_header">#1B2B52</color>
+    <color name="navy_dark">#121E3A</color>
+    <color name="bg_light">#F0F4F8</color>
+
+    <color name="gold_primary">#D49A36</color>
+    <color name="gold_dark">#B68026</color>
+    <color name="gold_light">#FFF6E5</color>
+
+    <color name="green_primary">#137A43</color>
+    <color name="green_dark">#0E5A31</color>
+    <color name="green_light">#E8F5E9</color>
+
+    <color name="card_info_bg">#E4EBF5</color>
+    <color name="chip_bg">#F0F3F7</color>
+    <color name="chip_text">#64748B</color>
+
+    <color name="text_title">#1B2B52</color>
+    <color name="text_body">#475569</color>
+    <color name="text_subtle">#94A3B8</color>
+
+    <color name="option_default_bg">#FFFFFF</color>
+    <color name="option_default_stroke">#CBD5E1</color>
+    <color name="option_selected_bg">#E2E8F0</color>
+    <color name="option_selected_stroke">#1B2B52</color>
+    <color name="option_correct_bg">#DCFCE7</color>
+    <color name="option_correct_stroke">#16A34A</color>
+    <color name="option_wrong_bg">#FEE2E2</color>
+    <color name="option_wrong_stroke">#DC2626</color>
+</resources>
