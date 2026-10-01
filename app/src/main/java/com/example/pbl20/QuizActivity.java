@@ -29,10 +29,8 @@ public class QuizActivity extends AppCompatActivity {
     private TextView tvOptionA, tvOptionB, tvOptionC, tvOptionD;
     private TextView tvLabelA, tvLabelB, tvLabelC, tvLabelD;
     private LinearLayout layoutOptionA, layoutOptionB, layoutOptionC, layoutOptionD;
-    private LinearLayout layoutExplanation;
-    private TextView tvExplanationText;
     private ProgressBar progressBar;
-    private Button btnExplanation, btnPrev, btnNext;
+    private Button btnPrev, btnNext;
     private View btnExit;
 
     private List<Question> questionList;
@@ -80,10 +78,6 @@ public class QuizActivity extends AppCompatActivity {
         tvLabelC = findViewById(R.id.tvLabelC);
         tvLabelD = findViewById(R.id.tvLabelD);
 
-        layoutExplanation = findViewById(R.id.layoutExplanation);
-        tvExplanationText = findViewById(R.id.tvExplanationText);
-
-        btnExplanation = findViewById(R.id.btnExplanation);
         btnPrev = findViewById(R.id.btnPrev);
         btnNext = findViewById(R.id.btnNext);
     }
@@ -129,14 +123,6 @@ public class QuizActivity extends AppCompatActivity {
         layoutOptionB.setOnClickListener(v -> selectOption(1));
         layoutOptionC.setOnClickListener(v -> selectOption(2));
         layoutOptionD.setOnClickListener(v -> selectOption(3));
-
-        btnExplanation.setOnClickListener(v -> {
-            if (layoutExplanation.getVisibility() == View.VISIBLE) {
-                layoutExplanation.setVisibility(View.GONE);
-            } else {
-                layoutExplanation.setVisibility(View.VISIBLE);
-            }
-        });
 
         btnPrev.setOnClickListener(v -> {
             if (currentIndex > 0) {
@@ -185,9 +171,6 @@ public class QuizActivity extends AppCompatActivity {
         tvOptionB.setText(options[1]);
         tvOptionC.setText(options[2]);
         tvOptionD.setText(options[3]);
-
-        tvExplanationText.setText(currentQ.getExplanation());
-        layoutExplanation.setVisibility(View.GONE);
 
         btnPrev.setVisibility(currentIndex == 0 ? View.INVISIBLE : View.VISIBLE);
 
