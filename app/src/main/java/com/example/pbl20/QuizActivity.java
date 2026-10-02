@@ -2,12 +2,9 @@ package com.example.pbl20;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -28,11 +25,10 @@ import java.util.List;
 public class QuizActivity extends AppCompatActivity {
 
     private TextView tvSetTitle, tvProgressText, tvScoreCounter, tvChapter, tvQuestionText;
-    private TextView tvOptionA, tvOptionB, tvOptionC, tvOptionD;
-    private TextView tvLabelA, tvLabelB, tvLabelC, tvLabelD;
-    private LinearLayout layoutOptionA, layoutOptionB, layoutOptionC, layoutOptionD;
-    private LinearLayout layoutSubjective;
-    private EditText etSubjectiveAnswer;
+    private ImageView ivQuestionImage;
+    private TextView tvOptionTrue, tvOptionFalse;
+    private TextView tvLabelTrue, tvLabelFalse;
+    private LinearLayout layoutOptionTrue, layoutOptionFalse;
     private ProgressBar progressBar;
     private Button btnPrev, btnNext;
     private View btnExit;
@@ -63,24 +59,16 @@ public class QuizActivity extends AppCompatActivity {
 
         tvChapter = findViewById(R.id.tvChapter);
         tvQuestionText = findViewById(R.id.tvQuestionText);
+        ivQuestionImage = findViewById(R.id.ivQuestionImage);
 
-        layoutOptionA = findViewById(R.id.layoutOptionA);
-        layoutOptionB = findViewById(R.id.layoutOptionB);
-        layoutOptionC = findViewById(R.id.layoutOptionC);
-        layoutOptionD = findViewById(R.id.layoutOptionD);
+        layoutOptionTrue = findViewById(R.id.layoutOptionTrue);
+        layoutOptionFalse = findViewById(R.id.layoutOptionFalse);
 
-        tvOptionA = findViewById(R.id.tvOptionA);
-        tvOptionB = findViewById(R.id.tvOptionB);
-        tvOptionC = findViewById(R.id.tvOptionC);
-        tvOptionD = findViewById(R.id.tvOptionD);
+        tvOptionTrue = findViewById(R.id.tvOptionTrue);
+        tvOptionFalse = findViewById(R.id.tvOptionFalse);
 
-        tvLabelA = findViewById(R.id.tvLabelA);
-        tvLabelB = findViewById(R.id.tvLabelB);
-        tvLabelC = findViewById(R.id.tvLabelC);
-        tvLabelD = findViewById(R.id.tvLabelD);
-
-        layoutSubjective = findViewById(R.id.layoutSubjective);
-        etSubjectiveAnswer = findViewById(R.id.etSubjectiveAnswer);
+        tvLabelTrue = findViewById(R.id.tvLabelTrue);
+        tvLabelFalse = findViewById(R.id.tvLabelFalse);
 
         btnPrev = findViewById(R.id.btnPrev);
         btnNext = findViewById(R.id.btnNext);
@@ -93,7 +81,6 @@ public class QuizActivity extends AppCompatActivity {
 
         ViewCompat.setOnApplyWindowInsetsListener(quizMainLayout, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            Insets ime = insets.getInsets(WindowInsetsCompat.Type.ime());
             headerLayout.setPadding(
                     headerLayout.getPaddingLeft(),
                     systemBars.top + 16,
@@ -104,14 +91,14 @@ public class QuizActivity extends AppCompatActivity {
                     bottomNavLayout.getPaddingLeft(),
                     bottomNavLayout.getPaddingTop(),
                     bottomNavLayout.getPaddingRight(),
-                    Math.max(systemBars.bottom, ime.bottom) + 12
+                    systemBars.bottom + 12
             );
             return insets;
         });
     }
 
     private void loadQuestions() {
-        tvSetTitle.setText("KUIZ SEJARAH — OBJEKTIF & SUBJEKTIF");
+        tvSetTitle.setText("BETUL ATAU SALAH");
         questionList = QuestionRepository.getQuestions();
         progressBar.setMax(questionList.size());
     }
@@ -119,29 +106,8 @@ public class QuizActivity extends AppCompatActivity {
     private void setupListeners() {
         btnExit.setOnClickListener(v -> showExitConfirmationDialog());
 
-        layoutOptionA.setOnClickListener(v -> selectOption(0));
-        layoutOptionB.setOnClickListener(v -> selectOption(1));
-        layoutOptionC.setOnClickListener(v -> selectOption(2));
-        layoutOptionD.setOnClickListener(v -> selectOption(3));
-
-        etSubjectiveAnswer.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                Question currentQ = questionList.get(currentIndex);
-                if (currentQ.isSubjective()) {
-                    currentQ.setUserAnswerText(s.toString());
-                    updateAnsweredCounter();
-                }
-            }
-        });
+        layoutOptionTrue.setOnClickListener(v -> selectOption(Question.ANSWER_TRUE));
+        layoutOptionFalse.setOnClickListener(v -> selectOption(Question.ANSWER_FALSE));
 
         btnPrev.setOnClickListener(v -> {
             if (currentIndex > 0) {
@@ -185,23 +151,18 @@ public class QuizActivity extends AppCompatActivity {
         tvChapter.setText(currentQ.getChapter());
         tvQuestionText.setText(currentQ.getQuestionText());
 
-        if (currentQ.isSubjective()) {
-            setOptionsVisibility(View.GONE);
-            layoutSubjective.setVisibility(View.VISIBLE);
-            etSubjectiveAnswer.setText(currentQ.getUserAnswerText());
-            etSubjectiveAnswer.setSelection(etSubjectiveAnswer.length());
+        if (currentQ.hasImage()) {
+            ivQuestionImage.setImageResource(currentQ.getImageResId());
+            ivQuestionImage.setVisibility(View.VISIBLE);
         } else {
-            setOptionsVisibility(View.VISIBLE);
-            layoutSubjective.setVisibility(View.GONE);
-            hideKeyboard();
-
-            String[] options = currentQ.getOptions();
-            tvOptionA.setText(options[0]);
-            tvOptionB.setText(options[1]);
-            tvOptionC.setText(options[2]);
-            tvOptionD.setText(options[3]);
-            updateOptionsUI(currentQ.getUserSelectedIndex());
+            ivQuestionImage.setImageDrawable(null);
+            ivQuestionImage.setVisibility(View.GONE);
         }
+
+        String[] options = currentQ.getOptions();
+        tvOptionTrue.setText(options[Question.ANSWER_TRUE]);
+        tvOptionFalse.setText(options[Question.ANSWER_FALSE]);
+        updateOptionsUI(currentQ.getUserSelectedIndex());
 
         btnPrev.setVisibility(currentIndex == 0 ? View.INVISIBLE : View.VISIBLE);
 
@@ -212,21 +173,6 @@ public class QuizActivity extends AppCompatActivity {
         }
 
         updateAnsweredCounter();
-    }
-
-    private void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        if (imm != null) {
-            imm.hideSoftInputFromWindow(etSubjectiveAnswer.getWindowToken(), 0);
-        }
-        etSubjectiveAnswer.clearFocus();
-    }
-
-    private void setOptionsVisibility(int visibility) {
-        layoutOptionA.setVisibility(visibility);
-        layoutOptionB.setVisibility(visibility);
-        layoutOptionC.setVisibility(visibility);
-        layoutOptionD.setVisibility(visibility);
     }
 
     private void updateAnsweredCounter() {
@@ -240,15 +186,11 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void updateOptionsUI(int selectedIndex) {
-        resetOption(layoutOptionA, tvLabelA);
-        resetOption(layoutOptionB, tvLabelB);
-        resetOption(layoutOptionC, tvLabelC);
-        resetOption(layoutOptionD, tvLabelD);
+        resetOption(layoutOptionTrue, tvLabelTrue);
+        resetOption(layoutOptionFalse, tvLabelFalse);
 
-        if (selectedIndex == 0) highlightOption(layoutOptionA, tvLabelA);
-        else if (selectedIndex == 1) highlightOption(layoutOptionB, tvLabelB);
-        else if (selectedIndex == 2) highlightOption(layoutOptionC, tvLabelC);
-        else if (selectedIndex == 3) highlightOption(layoutOptionD, tvLabelD);
+        if (selectedIndex == Question.ANSWER_TRUE) highlightOption(layoutOptionTrue, tvLabelTrue);
+        else if (selectedIndex == Question.ANSWER_FALSE) highlightOption(layoutOptionFalse, tvLabelFalse);
     }
 
     private void resetOption(LinearLayout layout, TextView label) {

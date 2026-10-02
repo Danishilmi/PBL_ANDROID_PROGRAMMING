@@ -1,64 +1,37 @@
 package com.example.pbl20;
 
 import java.io.Serializable;
-import java.util.Locale;
 
 public class Question implements Serializable {
 
-    public enum Type { OBJECTIVE, SUBJECTIVE }
+    // True/false answer options, shown in this order on screen
+    public static final String[] OPTIONS = {"Betul", "Salah"};
+    public static final int ANSWER_TRUE = 0;
+    public static final int ANSWER_FALSE = 1;
 
     private final int id;
-    private final Type type;
     private final String chapter;
     private final String questionText;
-    private final String explanation;
-
-    // Objective (multiple choice) fields
-    private final String[] options;
     private final int correctAnswerIndex;
+    private final String explanation;
+    private final int imageResId; // 0 when the question has no diagram
     private int userSelectedIndex = -1;
 
-    // Subjective (written answer) fields
-    private final String modelAnswer;
-    private final String[] acceptedKeywords;
-    private String userAnswerText = "";
-
-    // Objective question
-    public Question(int id, String chapter, String questionText, String[] options, int correctAnswerIndex, String explanation) {
-        this.id = id;
-        this.type = Type.OBJECTIVE;
-        this.chapter = chapter;
-        this.questionText = questionText;
-        this.options = options;
-        this.correctAnswerIndex = correctAnswerIndex;
-        this.explanation = explanation;
-        this.modelAnswer = null;
-        this.acceptedKeywords = new String[0];
+    public Question(int id, String chapter, String questionText, boolean answerIsTrue, String explanation) {
+        this(id, chapter, questionText, answerIsTrue, explanation, 0);
     }
 
-    // Subjective question: the answer is correct if it contains any of the accepted keywords
-    public Question(int id, String chapter, String questionText, String modelAnswer, String[] acceptedKeywords, String explanation) {
+    public Question(int id, String chapter, String questionText, boolean answerIsTrue, String explanation, int imageResId) {
         this.id = id;
-        this.type = Type.SUBJECTIVE;
         this.chapter = chapter;
         this.questionText = questionText;
-        this.options = new String[0];
-        this.correctAnswerIndex = -1;
+        this.correctAnswerIndex = answerIsTrue ? ANSWER_TRUE : ANSWER_FALSE;
         this.explanation = explanation;
-        this.modelAnswer = modelAnswer;
-        this.acceptedKeywords = acceptedKeywords;
+        this.imageResId = imageResId;
     }
 
     public int getId() {
         return id;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public boolean isSubjective() {
-        return type == Type.SUBJECTIVE;
     }
 
     public String getChapter() {
@@ -70,7 +43,7 @@ public class Question implements Serializable {
     }
 
     public String[] getOptions() {
-        return options;
+        return OPTIONS;
     }
 
     public int getCorrectAnswerIndex() {
@@ -81,6 +54,14 @@ public class Question implements Serializable {
         return explanation;
     }
 
+    public int getImageResId() {
+        return imageResId;
+    }
+
+    public boolean hasImage() {
+        return imageResId != 0;
+    }
+
     public int getUserSelectedIndex() {
         return userSelectedIndex;
     }
@@ -89,41 +70,11 @@ public class Question implements Serializable {
         this.userSelectedIndex = userSelectedIndex;
     }
 
-    public String getModelAnswer() {
-        return modelAnswer;
-    }
-
-    public String getUserAnswerText() {
-        return userAnswerText;
-    }
-
-    public void setUserAnswerText(String userAnswerText) {
-        this.userAnswerText = userAnswerText == null ? "" : userAnswerText;
-    }
-
     public boolean isAnswered() {
-        if (isSubjective()) {
-            return !userAnswerText.trim().isEmpty();
-        }
         return userSelectedIndex != -1;
     }
 
     public boolean isCorrect() {
-        if (isSubjective()) {
-            String answer = normalize(userAnswerText);
-            if (answer.isEmpty()) return false;
-            for (String keyword : acceptedKeywords) {
-                if (answer.contains(normalize(keyword))) return true;
-            }
-            return false;
-        }
         return userSelectedIndex == correctAnswerIndex;
-    }
-
-    private static String normalize(String text) {
-        return text.toLowerCase(Locale.ROOT)
-                .replaceAll("[^a-z0-9 ]", " ")
-                .replaceAll("\\s+", " ")
-                .trim();
     }
 }
