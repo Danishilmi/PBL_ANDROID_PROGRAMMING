@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,39 +34,32 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Question q = questionList.get(position);
-        holder.tvNumber.setText("Soalan " + (position + 1) + (q.isSubjective() ? " · Subjektif" : " · Objektif"));
+        holder.tvNumber.setText("Soalan " + (position + 1));
         holder.tvQuestion.setText(q.getQuestionText());
+
+        if (q.hasImage()) {
+            holder.ivImage.setImageResource(q.getImageResId());
+            holder.ivImage.setVisibility(View.VISIBLE);
+        } else {
+            holder.ivImage.setImageDrawable(null);
+            holder.ivImage.setVisibility(View.GONE);
+        }
 
         boolean isCorrect = q.isCorrect();
         if (isCorrect) {
-            holder.tvStatusBadge.setText("BETUL");
+            holder.tvStatusBadge.setText("✓ TEPAT");
             holder.tvStatusBadge.setTextColor(Color.parseColor("#16A34A")); // Green
             holder.tvStatusBadge.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_chip));
         } else {
-            holder.tvStatusBadge.setText("SALAH");
+            holder.tvStatusBadge.setText("✗ TIDAK TEPAT");
             holder.tvStatusBadge.setTextColor(Color.parseColor("#DC2626")); // Red
             holder.tvStatusBadge.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_chip));
         }
 
-        if (q.isSubjective()) {
-            String userText = q.getUserAnswerText().trim();
-            if (userText.isEmpty()) {
-                holder.tvUserAnswer.setText("Jawapan anda: (Tiada Jawapan)");
-            } else {
-                holder.tvUserAnswer.setText("Jawapan anda: " + userText);
-            }
-            holder.tvUserAnswer.setTextColor(isCorrect ? Color.parseColor("#16A34A") : Color.parseColor("#DC2626"));
-            holder.tvCorrectAnswer.setText("Skema jawapan: " + q.getModelAnswer());
-            holder.tvExplanation.setText(q.getExplanation());
-            return;
-        }
-
         String[] options = q.getOptions();
-        char[] optionLetters = {'A', 'B', 'C', 'D'};
-
         int userSel = q.getUserSelectedIndex();
         if (userSel >= 0 && userSel < options.length) {
-            holder.tvUserAnswer.setText("Jawapan anda: " + optionLetters[userSel] + ". " + options[userSel]);
+            holder.tvUserAnswer.setText("Jawapan anda: " + options[userSel]);
             holder.tvUserAnswer.setTextColor(isCorrect ? Color.parseColor("#16A34A") : Color.parseColor("#DC2626"));
         } else {
             holder.tvUserAnswer.setText("Jawapan anda: (Tiada Jawapan)");
@@ -73,7 +67,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         }
 
         int correctIdx = q.getCorrectAnswerIndex();
-        holder.tvCorrectAnswer.setText("Jawapan betul: " + optionLetters[correctIdx] + ". " + options[correctIdx]);
+        holder.tvCorrectAnswer.setText("Jawapan sebenar: " + options[correctIdx]);
         holder.tvExplanation.setText(q.getExplanation());
     }
 
@@ -84,12 +78,14 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvNumber, tvStatusBadge, tvQuestion, tvUserAnswer, tvCorrectAnswer, tvExplanation;
+        ImageView ivImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNumber = itemView.findViewById(R.id.tvReviewNumber);
             tvStatusBadge = itemView.findViewById(R.id.tvStatusBadge);
             tvQuestion = itemView.findViewById(R.id.tvReviewQuestion);
+            ivImage = itemView.findViewById(R.id.ivReviewImage);
             tvUserAnswer = itemView.findViewById(R.id.tvUserAnswer);
             tvCorrectAnswer = itemView.findViewById(R.id.tvCorrectAnswer);
             tvExplanation = itemView.findViewById(R.id.tvReviewExplanation);

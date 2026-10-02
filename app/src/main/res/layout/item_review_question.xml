@@ -55,12 +55,22 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/ivReviewImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="Rajah soalan"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/tvUserAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Jawapan anda: B. Wilayah pengaruh..."
+            android:text="Jawapan anda: Betul"
             android:textColor="@color/text_body"
             android:textSize="13sp" />
 
@@ -69,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Jawapan betul: B. Wilayah pengaruh..."
+            android:text="Jawapan sebenar: Betul"
             android:textColor="@color/green_primary"
             android:textSize="13sp"
             android:textStyle="bold" />

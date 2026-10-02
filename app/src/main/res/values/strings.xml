@@ -5,14 +5,14 @@
     <string name="welcome_subheading">Jawab kuiz untuk menguji pengetahuan Sejarah anda.</string>
 
     <string name="set1_tag">KUIZ SEJARAH</string>
-    <string name="set1_title">Objektif &amp; Subjektif</string>
-    <string name="set1_desc">5 soalan objektif (pilih jawapan) dan 5 soalan subjektif (tulis jawapan) merangkumi Bab 1–10.</string>
+    <string name="set1_title">Betul atau Salah</string>
+    <string name="set1_desc">Tentukan sama ada setiap kenyataan sejarah itu Betul atau Salah. Merangkumi Bab 1–10.</string>
     <string name="set1_chip">10 Soalan · Bab 1–10</string>
     <string name="set1_btn">Mula Kuiz</string>
 
     <string name="how_to_play_title">Cara Bermain</string>
     <string name="step_1">Tekan "Mula Kuiz".</string>
-    <string name="step_2">Pilih jawapan bagi soalan objektif dan tulis jawapan bagi soalan subjektif.</string>
+    <string name="step_2">Baca setiap kenyataan dan pilih Betul atau Salah.</string>
     <string name="step_3">Hantar jawapan selepas selesai.</string>
     <string name="step_4">Lihat markah dan semak jawapan sebenar.</string>
     <string name="step_5">Selepas menghantar kuiz, lihat penerangan bagi setiap jawapan.</string>
