@@ -28,18 +28,21 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <FrameLayout
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="38dp"
                 android:layout_height="38dp"
-                android:background="@drawable/bg_top_logo">
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/gold_primary"
+                app:strokeWidth="1.5dp">
 
                 <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:contentDescription="Logo"
-                    android:src="@drawable/ic_logo_book" />
-            </FrameLayout>
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/sejarahqu_logo" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -86,7 +89,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- CARD 1: SET 1 (Standard / Core Concepts) -->
+            <!-- CARD 1: KUIZ (Objektif dan Subjektif) -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -203,124 +206,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- CARD 2: SET 2 (Application & Scenario-Based) -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp"
-                app:cardBackgroundColor="@color/white">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <!-- Top Green Accent Line -->
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="5dp"
-                        android:background="@color/green_primary" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
-                                android:contentDescription="Set 2 Icon"
-                                android:src="@drawable/ic_set2_scenario" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/set2_tag"
-                                    android:textColor="@color/green_primary"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold"
-                                    android:letterSpacing="0.05" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:text="@string/set2_title"
-                                    android:textColor="@color/text_title"
-                                    android:textSize="18sp"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:text="@string/set2_desc"
-                            android:textColor="@color/text_body"
-                            android:textSize="14sp"
-                            android:lineSpacingExtra="2dp" />
-
-                        <!-- Bottom Row: Chip & Button -->
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp">
-
-                            <!-- Chip / Badge -->
-                            <TextView
-                                android:id="@+id/chipSet2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:background="@drawable/bg_chip"
-                                android:paddingStart="14dp"
-                                android:paddingTop="8dp"
-                                android:paddingEnd="14dp"
-                                android:paddingBottom="8dp"
-                                android:text="@string/set2_chip"
-                                android:textColor="@color/chip_text"
-                                android:textSize="13sp"
-                                android:textStyle="bold" />
-
-                            <!-- Start Button -->
-                            <Button
-                                android:id="@+id/btnStartSet2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:background="@drawable/btn_green"
-                                app:backgroundTint="@null"
-                                android:paddingStart="20dp"
-                                android:paddingEnd="20dp"
-                                android:text="@string/set2_btn"
-                                android:textColor="@color/white"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
-                                android:textAllCaps="false" />
-                        </RelativeLayout>
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- CARD 3: CARA BERMAIN -->
+            <!-- CARD 2: CARA BERMAIN -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
