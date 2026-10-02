@@ -24,7 +24,7 @@ import java.util.List;
 
 public class QuizActivity extends AppCompatActivity {
 
-    private TextView tvSetTitle, tvProgressText, tvScoreCounter, tvChapter, tvQuestionText;
+    private TextView tvProgressText, tvScoreCounter, tvChapter, tvQuestionText;
     private ImageView ivQuestionImage;
     private TextView tvOptionTrue, tvOptionFalse;
     private TextView tvLabelTrue, tvLabelFalse;
@@ -52,7 +52,6 @@ public class QuizActivity extends AppCompatActivity {
 
     private void initViews() {
         btnExit = findViewById(R.id.btnExit);
-        tvSetTitle = findViewById(R.id.tvSetTitle);
         tvProgressText = findViewById(R.id.tvProgressText);
         tvScoreCounter = findViewById(R.id.tvScoreCounter);
         progressBar = findViewById(R.id.progressBar);
@@ -98,7 +97,6 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void loadQuestions() {
-        tvSetTitle.setText("BETUL ATAU SALAH");
         questionList = QuestionRepository.getQuestions();
         progressBar.setMax(questionList.size());
     }

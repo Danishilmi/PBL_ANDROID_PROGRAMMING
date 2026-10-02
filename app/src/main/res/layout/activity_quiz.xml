@@ -25,66 +25,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- Top Left: ✕ Keluar Button -->
-            <LinearLayout
+            <!-- Top Left: ✕ Exit Button -->
+            <ImageView
                 android:id="@+id/btnExit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:background="?attr/selectableItemBackground"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
+                android:contentDescription="Keluar"
                 android:focusable="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="4dp">
+                android:padding="8dp"
+                android:src="@drawable/ic_close"
+                app:tint="#CBD5E1" />
 
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:contentDescription="Keluar"
-                    android:src="@drawable/ic_close"
-                    app:tint="#CBD5E1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:text="Keluar"
-                    android:textColor="#CBD5E1"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Top Center: SET Title in Gold -->
-            <TextView
-                android:id="@+id/tvSetTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_toStartOf="@id/tvScoreCounter"
-                android:layout_toEndOf="@id/btnExit"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text="BETUL ATAU SALAH"
-                android:textColor="@color/gold_primary"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.04" />
-
-            <!-- Top Right: Score / Progress counter (0/13) -->
+            <!-- Top Right: Answered counter (0/10) -->
             <TextView
                 android:id="@+id/tvScoreCounter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:text="0/13"
+                android:text="0/10"
                 android:textColor="#CBD5E1"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 
