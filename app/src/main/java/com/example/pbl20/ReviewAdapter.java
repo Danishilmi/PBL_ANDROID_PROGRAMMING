@@ -33,7 +33,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Question q = questionList.get(position);
-        holder.tvNumber.setText("Soalan " + (position + 1));
+        holder.tvNumber.setText("Soalan " + (position + 1) + (q.isSubjective() ? " · Subjektif" : " · Objektif"));
         holder.tvQuestion.setText(q.getQuestionText());
 
         boolean isCorrect = q.isCorrect();
@@ -45,6 +45,19 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             holder.tvStatusBadge.setText("SALAH");
             holder.tvStatusBadge.setTextColor(Color.parseColor("#DC2626")); // Red
             holder.tvStatusBadge.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_chip));
+        }
+
+        if (q.isSubjective()) {
+            String userText = q.getUserAnswerText().trim();
+            if (userText.isEmpty()) {
+                holder.tvUserAnswer.setText("Jawapan anda: (Tiada Jawapan)");
+            } else {
+                holder.tvUserAnswer.setText("Jawapan anda: " + userText);
+            }
+            holder.tvUserAnswer.setTextColor(isCorrect ? Color.parseColor("#16A34A") : Color.parseColor("#DC2626"));
+            holder.tvCorrectAnswer.setText("Skema jawapan: " + q.getModelAnswer());
+            holder.tvExplanation.setText(q.getExplanation());
+            return;
         }
 
         String[] options = q.getOptions();

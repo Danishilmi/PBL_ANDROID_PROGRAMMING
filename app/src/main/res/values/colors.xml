@@ -3,6 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <!-- Launcher Icon Colors -->
+    <color name="ic_launcher_background">#1800AD</color>
+
     <!-- SejarahQu Color Palette -->
     <color name="navy_header">#1B2B52</color>
     <color name="navy_dark">#121E3A</color>

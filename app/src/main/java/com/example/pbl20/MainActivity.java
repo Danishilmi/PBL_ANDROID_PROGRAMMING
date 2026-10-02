@@ -34,18 +34,10 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        Button btnStartSet1 = findViewById(R.id.btnStartSet1);
-        Button btnStartSet2 = findViewById(R.id.btnStartSet2);
+        Button btnStartQuiz = findViewById(R.id.btnStartSet1);
 
-        btnStartSet1.setOnClickListener(v -> {
+        btnStartQuiz.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, QuizActivity.class);
-            intent.putExtra(QuizActivity.EXTRA_SET_ID, 1);
-            startActivity(intent);
-        });
-
-        btnStartSet2.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, QuizActivity.class);
-            intent.putExtra(QuizActivity.EXTRA_SET_ID, 2);
             startActivity(intent);
         });
     }

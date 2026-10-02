@@ -2,8 +2,12 @@ package com.example.pbl20;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,27 +27,24 @@ import java.util.List;
 
 public class QuizActivity extends AppCompatActivity {
 
-    public static final String EXTRA_SET_ID = "extra_set_id";
-
     private TextView tvSetTitle, tvProgressText, tvScoreCounter, tvChapter, tvQuestionText;
     private TextView tvOptionA, tvOptionB, tvOptionC, tvOptionD;
     private TextView tvLabelA, tvLabelB, tvLabelC, tvLabelD;
     private LinearLayout layoutOptionA, layoutOptionB, layoutOptionC, layoutOptionD;
+    private LinearLayout layoutSubjective;
+    private EditText etSubjectiveAnswer;
     private ProgressBar progressBar;
     private Button btnPrev, btnNext;
     private View btnExit;
 
     private List<Question> questionList;
     private int currentIndex = 0;
-    private int setNum = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_quiz);
-
-        setNum = getIntent().getIntExtra(EXTRA_SET_ID, 1);
 
         initViews();
         setupWindowInsets();
@@ -78,6 +79,9 @@ public class QuizActivity extends AppCompatActivity {
         tvLabelC = findViewById(R.id.tvLabelC);
         tvLabelD = findViewById(R.id.tvLabelD);
 
+        layoutSubjective = findViewById(R.id.layoutSubjective);
+        etSubjectiveAnswer = findViewById(R.id.etSubjectiveAnswer);
+
         btnPrev = findViewById(R.id.btnPrev);
         btnNext = findViewById(R.id.btnNext);
     }
@@ -89,6 +93,7 @@ public class QuizActivity extends AppCompatActivity {
 
         ViewCompat.setOnApplyWindowInsetsListener(quizMainLayout, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets ime = insets.getInsets(WindowInsetsCompat.Type.ime());
             headerLayout.setPadding(
                     headerLayout.getPaddingLeft(),
                     systemBars.top + 16,
@@ -99,20 +104,15 @@ public class QuizActivity extends AppCompatActivity {
                     bottomNavLayout.getPaddingLeft(),
                     bottomNavLayout.getPaddingTop(),
                     bottomNavLayout.getPaddingRight(),
-                    systemBars.bottom + 12
+                    Math.max(systemBars.bottom, ime.bottom) + 12
             );
             return insets;
         });
     }
 
     private void loadQuestions() {
-        if (setNum == 2) {
-            tvSetTitle.setText("SET 2 — APPLICATION & SCENARIO");
-            questionList = QuestionRepository.getSet2Questions();
-        } else {
-            tvSetTitle.setText("SET 1 — CORE CONCEPTS");
-            questionList = QuestionRepository.getSet1Questions();
-        }
+        tvSetTitle.setText("KUIZ SEJARAH — OBJEKTIF & SUBJEKTIF");
+        questionList = QuestionRepository.getQuestions();
         progressBar.setMax(questionList.size());
     }
 
@@ -123,6 +123,25 @@ public class QuizActivity extends AppCompatActivity {
         layoutOptionB.setOnClickListener(v -> selectOption(1));
         layoutOptionC.setOnClickListener(v -> selectOption(2));
         layoutOptionD.setOnClickListener(v -> selectOption(3));
+
+        etSubjectiveAnswer.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Question currentQ = questionList.get(currentIndex);
+                if (currentQ.isSubjective()) {
+                    currentQ.setUserAnswerText(s.toString());
+                    updateAnsweredCounter();
+                }
+            }
+        });
 
         btnPrev.setOnClickListener(v -> {
             if (currentIndex > 0) {
@@ -166,11 +185,23 @@ public class QuizActivity extends AppCompatActivity {
         tvChapter.setText(currentQ.getChapter());
         tvQuestionText.setText(currentQ.getQuestionText());
 
-        String[] options = currentQ.getOptions();
-        tvOptionA.setText(options[0]);
-        tvOptionB.setText(options[1]);
-        tvOptionC.setText(options[2]);
-        tvOptionD.setText(options[3]);
+        if (currentQ.isSubjective()) {
+            setOptionsVisibility(View.GONE);
+            layoutSubjective.setVisibility(View.VISIBLE);
+            etSubjectiveAnswer.setText(currentQ.getUserAnswerText());
+            etSubjectiveAnswer.setSelection(etSubjectiveAnswer.length());
+        } else {
+            setOptionsVisibility(View.VISIBLE);
+            layoutSubjective.setVisibility(View.GONE);
+            hideKeyboard();
+
+            String[] options = currentQ.getOptions();
+            tvOptionA.setText(options[0]);
+            tvOptionB.setText(options[1]);
+            tvOptionC.setText(options[2]);
+            tvOptionD.setText(options[3]);
+            updateOptionsUI(currentQ.getUserSelectedIndex());
+        }
 
         btnPrev.setVisibility(currentIndex == 0 ? View.INVISIBLE : View.VISIBLE);
 
@@ -180,14 +211,28 @@ public class QuizActivity extends AppCompatActivity {
             btnNext.setText("Seterusnya");
         }
 
-        updateOptionsUI(currentQ.getUserSelectedIndex());
         updateAnsweredCounter();
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(etSubjectiveAnswer.getWindowToken(), 0);
+        }
+        etSubjectiveAnswer.clearFocus();
+    }
+
+    private void setOptionsVisibility(int visibility) {
+        layoutOptionA.setVisibility(visibility);
+        layoutOptionB.setVisibility(visibility);
+        layoutOptionC.setVisibility(visibility);
+        layoutOptionD.setVisibility(visibility);
     }
 
     private void updateAnsweredCounter() {
         int answeredCount = 0;
         for (Question q : questionList) {
-            if (q.getUserSelectedIndex() != -1) {
+            if (q.isAnswered()) {
                 answeredCount++;
             }
         }
@@ -221,7 +266,7 @@ public class QuizActivity extends AppCompatActivity {
     private void showCustomSubmitDialog() {
         int answeredCount = 0;
         for (Question q : questionList) {
-            if (q.getUserSelectedIndex() != -1) {
+            if (q.isAnswered()) {
                 answeredCount++;
             }
         }
